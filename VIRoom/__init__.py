@@ -21,10 +21,26 @@ class VIRoom(Process):
     def __init__(self):
         super(VIRoom, self).__init__(name="VIRoom Main")
 
+        self._running = False
+        self._processes = []
+
     def run(self):
         print self.name, 'Started'
 
+        self._start_editor_process()
+
+        self._running = True
+        while self._running:
+            if len(self._processes) == 0:
+                self._running = False
+
         print self.name, 'Stopped'
+
+    def _start_editor_process(self):
+        process = Editor()
+        process.start()
+
+        self._processes.append(process)
 
 
 def main():
